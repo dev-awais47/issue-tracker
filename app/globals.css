@@ -14,9 +14,9 @@
   }
 }
 
-body {
-  /* color: rgb(var(--foreground-rgb)); */
-}
+/* body {
+  color: rgb(var(--foreground-rgb));
+} */
 
 @layer utilities {
   .text-balance {
