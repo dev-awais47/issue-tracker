@@ -1,17 +1,17 @@
 "use client";
-import { Button, Text, TextField } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
-import { useForm, Controller } from "react-hook-form";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import { createIssueSchema } from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "@/app/validationSchemas";
+import { Controller, useForm } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
 
-type issueForm = z.infer<typeof createIssueSchema>;
+type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
   const router = useRouter();
@@ -20,22 +20,24 @@ const NewIssuePage = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<issueForm>({
+  } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
-  const [error, setError] = useState();
+
+  const [error, setError] = useState<string | undefined>();
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
-      // setError("An unexpected error occurs.");
+      setError("An unexpected error occurred.");
     }
   });
+
   return (
     <form className="max-w-xl space-y-3" onSubmit={onSubmit}>
       <TextField.Root placeholder="Title" size="3" {...register("title")} />
-
       <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
       <Controller
@@ -45,9 +47,11 @@ const NewIssuePage = () => {
           <SimpleMDE placeholder="Description" {...field} />
         )}
       />
-
       <ErrorMessage>{errors.description?.message}</ErrorMessage>
-      <Button>Submit the Issue</Button>
+
+      <Button type="submit">Submit the Issue</Button>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </form>
   );
 };
