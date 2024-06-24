@@ -1,7 +1,7 @@
 import { Skeleton } from "@/app/components";
 import { Box } from "@radix-ui/themes";
 
-const loadingNewIssuePage = async () => {
+const loadingNewIssuePage = () => {
   return (
     <Box className="max-w-xl">
       <Skeleton />
