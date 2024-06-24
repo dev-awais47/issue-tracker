@@ -37,7 +37,8 @@ const IssueForm = ({ issue }: Props) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("/api/issues", data);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
+      else await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
       setError("An unexpected error occurred.");
@@ -46,7 +47,12 @@ const IssueForm = ({ issue }: Props) => {
 
   return (
     <form className="max-w-xl space-y-3" onSubmit={onSubmit}>
-      <TextField.Root defaultValue={issue?.title} placeholder="Title" size="3" {...register("title")} />
+      <TextField.Root
+        defaultValue={issue?.title}
+        placeholder="Title"
+        size="3"
+        {...register("title")}
+      />
       <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
       <Controller
@@ -59,7 +65,10 @@ const IssueForm = ({ issue }: Props) => {
       />
       <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-      <Button type="submit">Submit the Issue</Button>
+      <Button type="submit">
+        {" "}
+        {issue ? "Update Issue" : "Submit New Issue"}{" "}
+      </Button>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </form>
