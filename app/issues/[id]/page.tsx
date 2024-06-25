@@ -18,22 +18,25 @@ const IssueDetailPage = async ({ params }: Props) => {
   if (!issue) notFound();
 
   return (
-    <Grid columns={{ initial: "1", lg: "2" }} gap="5">
-      <Box>
+    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
+      <Box className="md:col-span-4">
         <Heading>{issue.title}</Heading>
         <Flex gap="3" my="2">
           <IssueStatusBadge status={issue.status} />
           <p>{issue.createdAt.toDateString()}</p>
         </Flex>
-        <Card className="prose">
+        <Card className="prose max-w-full">
           <ReactMarkDown>{issue.description}</ReactMarkDown>
         </Card>
       </Box>
       <Box>
-        <Button>
-          <Pencil2Icon />
-          <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
-        </Button>
+        <Flex direction="column" gap="4">
+          <Button>
+            <Pencil2Icon />
+            <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
+          </Button>
+          <Button color="red">Delete Issue</Button>
+        </Flex>
       </Box>
     </Grid>
   );
