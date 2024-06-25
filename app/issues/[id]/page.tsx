@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import ReactMarkDown from "react-markdown";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import DeleteIssueButton from "./DeleteIssueButton";
 
 interface Props {
   params: { id: string };
@@ -35,7 +36,7 @@ const IssueDetailPage = async ({ params }: Props) => {
             <Pencil2Icon />
             <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
           </Button>
-          <Button color="red">Delete Issue</Button>
+          <DeleteIssueButton issueId={issue.id} />
         </Flex>
       </Box>
     </Grid>
