@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import loadingNewIssuePage from "./loading";
 import IssueFormSkeleton from "./loading";
 
 const IssueForm = dynamic(
