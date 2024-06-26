@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
+import { Skeleton } from "@/app/components";
 
 const NavBar = () => {
   const links = [
@@ -47,6 +48,7 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
+            {status === 'loading' && <Skeleton width="3rem" /> }
             {status === "authenticated" && (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
