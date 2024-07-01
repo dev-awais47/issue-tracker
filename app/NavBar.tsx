@@ -18,7 +18,7 @@ import { Skeleton } from "@/app/components";
 const NavBar = () => {
   const links = [
     { label: "Dashboard", href: "/" },
-    { label: "Issues", href: "/issues" },
+    { label: "Issues", href: "/issues/list" },
   ];
   const currentPath = usePathname();
   const { status, data: session } = useSession();
